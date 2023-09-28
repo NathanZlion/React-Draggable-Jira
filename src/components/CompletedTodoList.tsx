@@ -1,5 +1,6 @@
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Todo } from "../model/Todo";
-import { SingleCompletedTodo } from "./SingleTodo";
+import SingleCompletedTodo from "./SingleCompletedTodo";
 
 interface Props {
   todos: Todo[];
@@ -8,21 +9,36 @@ interface Props {
   handleInProgressTodo: (todo: Todo) => void;
 }
 
-// <CompletedTodos todos={completedTodos} deleteTodo={handleDeleteTodo} editTodo={editTodo} handleInProgressTodo={handleInProgressTodo}></CompletedTodos>
-const CompletedTodos = ({ todos, handleDeleteTodo, handleInProgressTodo, editTodo }: Props) => {
+const CompletedTodos = ({
+  todos,
+  handleDeleteTodo,
+  handleInProgressTodo,
+  editTodo,
+}: Props) => {
   return (
-      <div className="card col-lg-4 col-md-12 col-sm-6 bg-success h-100 px-3">
-          <div className="card-header">Completed</div>
-          <ul className="list-group">
-          {todos.map((todo) => {
+    <Droppable droppableId="CompletedTodoList">
+      {(provided) => (
+        <ul className="list-group" ref={provided.innerRef} {...provided.droppableProps} >
+          {todos.map((todo, index) => {
             return (
-              <SingleCompletedTodo todo={todo} handleDeleteTodo={handleDeleteTodo} handleInProgressTodo={handleInProgressTodo} editTodo={editTodo} key={todo.id}
-              />
+              <Draggable key={todo.id} draggableId={todo.id.toString()} index={index} >
+                {(provided, snapshot) => (
+                  <SingleCompletedTodo
+                    provided={provided}
+                    todo={todo}
+                    handleDeleteTodo={handleDeleteTodo}
+                    editTodo={editTodo}
+                    handleInProgressTodo={handleInProgressTodo}
+                  />
+                )}
+              </Draggable>
             );
           })}
+          {provided.placeholder}
         </ul>
-      </div>
-    );
+      )}
+    </Droppable>
+  );
 };
 
 export default CompletedTodos;

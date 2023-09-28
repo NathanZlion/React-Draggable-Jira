@@ -1,29 +1,33 @@
-import { Todo } from "../model/Todo";
 import { AiOutlineSave } from "react-icons/ai";
+import { Todo } from "../model/Todo";
 import { useEffect, useRef, useState } from "react";
-import DeleteIcon from "./Icons/DeleteIcon.tsx";
-import EditIcon from "./Icons/EditIcon.tsx";
-import ToInprogressIcon from "./Icons/AddToInprogressIcon.tsx";
-import {  DraggableProvided } from "react-beautiful-dnd";
+import ToTodosIcon from "./Icons/ToTodosIcon";
+import CompleteIcon from "./Icons/CompleteIcon";
+import EditIcon from "./Icons/EditIcon";
+import DeleteIcon from "./Icons/DeleteIcon";
+import { DraggableProvided } from "react-beautiful-dnd";
 
 interface Props {
   provided: DraggableProvided;
+  index: number;
   todo: Todo;
   editTodo: (todo: Todo) => void;
   handleDeleteTodo: (todo: Todo) => void;
-  handleInProgressTodo: (todo: Todo) => void;
+  handleCompleteTodo: (todo: Todo) => void;
+  handleToTodos: (todo: Todo) => void;
 }
 
-const SingleTodo = ({
+const SingleInProgressTodo = ({
+  provided,
   todo,
   editTodo,
   handleDeleteTodo,
-  handleInProgressTodo,
-  provided,
+  handleCompleteTodo,
+  handleToTodos,
 }: Props) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const [todoTitle, setTodoTitle] = useState<string>(todo.title);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -43,12 +47,8 @@ const SingleTodo = ({
         {...provided.draggableProps}
         {...provided.dragHandleProps}
       >
-
         {/* editable title input */}
-        <form
-          className="col-8 d-inline-flex"
-          onSubmit={(e) => handleEditTodo(e)}
-        >
+        <form className="col-8 d-inline-flex" onSubmit={(e) => handleEditTodo(e)} >
           <input
             type="text"
             className="form-control"
@@ -75,6 +75,10 @@ const SingleTodo = ({
         {...provided.draggableProps}
         {...provided.dragHandleProps}
       >
+        <div className="btn-group col-1" role="group" aria-label="Basic example" >
+          <ToTodosIcon todo={todo} handleToTodos={handleToTodos} />
+        </div>
+
         {/* todo title */}
         <div className="col-4 text-center"> {todo.title} </div>
 
@@ -83,10 +87,7 @@ const SingleTodo = ({
           role="group"
           aria-label="Basic example"
         >
-          <ToInprogressIcon
-            todo={todo}
-            handleInProgressTodo={handleInProgressTodo}
-          />
+          <CompleteIcon todo={todo} handleCompleteTodo={handleCompleteTodo} />
           <EditIcon setIsEditing={setIsEditing} />
           <DeleteIcon todo={todo} handleDeleteTodo={handleDeleteTodo} />
         </div>
@@ -95,4 +96,4 @@ const SingleTodo = ({
   }
 };
 
-export default SingleTodo;
+export default SingleInProgressTodo;
