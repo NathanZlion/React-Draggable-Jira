@@ -1,0 +1,36 @@
+#root {
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinning {
+  animation: logo-spin infinite 20s linear;
+}
+
+.card {
+  padding: 20px;
+}
+
+.card .card-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.list-group-item {
+  background-color: #0000001b !important;
+}
+
+.list-group-item:hover {
+  background-color: #000000a3 !important;
+  color: #fff;
+}
