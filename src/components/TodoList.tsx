@@ -19,12 +19,12 @@ const TodoList = ({
 }: TodoListProps) => {
   return (
     <Droppable droppableId="TodoList">
-      {(provided) => (
+      {( provided ) => (
         <ul className="list-group" ref={provided.innerRef} {...provided.droppableProps} >
           {todos.map((todo, index) => {
             return (
               <Draggable key={todo.id} draggableId={todo.id.toString()} index={index} >
-                {(provided, snapshot) => (
+                {( provided ) => (
                   <SingleTodo
                     provided={provided}
                     todo={todo}

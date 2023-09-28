@@ -24,7 +24,7 @@ const InProgressTodos = ({
           {todos.map((todo, index) => {
             return (
               <Draggable key={todo.id} draggableId={todo.id.toString()} index={index} >
-                {(provided, snapshot) => (
+                {( provided ) => (
                   <SingleInProgressTodo
                     index={index}
                     provided={provided}

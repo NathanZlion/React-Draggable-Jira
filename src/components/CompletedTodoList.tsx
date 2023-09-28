@@ -22,7 +22,7 @@ const CompletedTodos = ({
           {todos.map((todo, index) => {
             return (
               <Draggable key={todo.id} draggableId={todo.id.toString()} index={index} >
-                {(provided, snapshot) => (
+                {(provided) => (
                   <SingleCompletedTodo
                     provided={provided}
                     todo={todo}
